@@ -1,0 +1,31 @@
+#defining dependencies 
+import csv
+with open ('election_data.csv', 'r') as csv_file:
+    csv_reader = csv.reader(csv_file)
+    
+    header_row = next(csv_reader)
+    candidate = set()
+
+    total_votes = 0
+#Empty list (Storage unit) used to append all of the rows together
+    percent_total = ["",3521000]
+    votes = {}
+   
+    
+    for row in csv_reader:
+#+= is a shortcut for total votes = total votes + 1 
+        total_votes += 1
+        candidate.add(row[1])
+        if row[1] not in votes:
+            votes[row[1]] = 1
+        else:
+            votes[row[1]] += 1
+#         votes_per == (row[1]) - (previous_row[1])
+#         percent_total.append(votes_per)
+            
+votes_percent = {}
+print(f"Total Votes: {total_votes}")
+
+for name, num_vote in votes.items():
+    print(f"{name},{num_vote/total_votes:.2%}, {votes[name]}")
+    

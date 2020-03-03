@@ -1,0 +1,39 @@
+#dwith open ('resources/budget_data.csv', 'r') as csv_file:
+    csv_reader = csv.reader(csv_file)
+#Remove first item in csv reader
+    header_row = next(csv_reader)
+    previous_row = next(csv_reader)
+    
+#Defining the variable for the first time - total months is now an int.
+    total_months = 1
+    
+#Preventing missing a row of profitloss
+    profitloss = int(previous_row[1]) 
+#Empty list (Storage unit)
+    profitloss_change = []
+    greatest_change = ["",-100000000]
+    decrease_change = ["", 100000000]
+    
+    for row in csv_reader:
+#+= is a shortcut for total months = total months + 1 
+        total_months += 1
+        profitloss += int(row[1])
+
+#First item in the list, putting it in the new list - profit loss from previous and stored it as the new base value for
+#the total .... 17 & 18 are the value tickers (do not change) ... previous row allows the loop to start on the new row
+#change in profit loss between the 2 months, take the difference and store in the empty array (Append)
+        change = int(row[1]) - int(previous_row[1])
+        if change < decrease_change[1]: 
+            decrease_change[0] = row[0] 
+            decrease_change[1] = change
+        elif change > greatest_change[1]:
+            greatest_change[0] = row[0]
+            greatest_change[1] = change
+        profitloss_change.append(change)
+#Previous row gets changed to the new row in the loop (month 2 and month 3 ... etc)
+        previous_row = row
+print(f'Total Months:  {total_months}')
+print(f'Total Proft:  {profitloss}')
+print(f'Average Change:  {sum(profitloss_change)/len(profitloss_change)}')
+print(f'Greatest Increase:  {greatest_change}')
+print(f'Greatest Decrease:  {decrease_change}')
